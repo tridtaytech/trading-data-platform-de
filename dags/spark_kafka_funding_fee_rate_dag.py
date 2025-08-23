@@ -20,11 +20,11 @@ with DAG(
         application="/opt/airflow/dags/spark_kafka_funding_fee_rate_stream.py",
         task_id="start_kafka_stream_funding_fee_rate",
         conn_id="spark_default",   # set in Airflow Connections
-        name="KafkaIntegration",
+        name="funding_fee_rate",
         packages= "org.apache.spark:spark-sql-kafka-0-10_2.13:4.0.0",
         conf={
-            "spark.executor.memory": "2g",
-            "spark.executor.cores": "2",
+            "spark.executor.memory": "1g",
+            "spark.executor.cores": "1",
             "spark.driver.memory": "1g"
         }
     )
