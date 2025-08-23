@@ -2,58 +2,53 @@
 import logging
 import psycopg2
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import col, from_json, explode
-from pyspark.sql.types import *
+from pyspark.sql.functions import col, from_json
+from pyspark.sql.types import StructType, StructField, StringType, DoubleType, TimestampType
 
 logging.basicConfig(level=logging.INFO,
                     format="%(asctime)s [%(levelname)s] %(message)s")
 logger = logging.getLogger("kafka_stream")
 
+# -----------------------------
+# Spark Session
+# -----------------------------
 spark = SparkSession.builder \
-    .appName("KafkaIntegration") \
+    .appName("funding_fee_rate") \
     .getOrCreate()
 
+# -----------------------------
+# Read from Kafka
+# -----------------------------
 df = spark.readStream \
     .format("kafka") \
     .option("kafka.bootstrap.servers", "kafka:29092") \
-    .option("subscribePattern", "binance.*") \
+    .option("subscribe", "funding_rate") \
     .option("startingOffsets", "latest") \
     .option("failOnDataLoss", "false") \
     .load()
-    # .option("subscribe", "binance.spot") \
-    # .option("subscribe", "binance.spot,binance.future_usdt,binance.futures_coin") \
 
-
-candle_schema = StructType([
-    StructField("source", StringType()),
-    StructField("type", StringType()),
-    StructField("market", StringType()),
+# -----------------------------
+# Define Schema for Kafka Message
+# -----------------------------
+funding_schema = StructType([
+    StructField("exchange", StringType()),
     StructField("symbol", StringType()),
-    StructField("interval", StringType()),
-    StructField("event_time", StringType()),
-    StructField("open_time", StringType()),
-    StructField("close_time", StringType()),
-    StructField("is_closed", BooleanType()),
-    StructField("open", DoubleType()),
-    StructField("high", DoubleType()),
-    StructField("low", DoubleType()),
-    StructField("close", DoubleType()),
-    StructField("volume", DoubleType()),
-    StructField("quote_volume", DoubleType()),
-    StructField("trades", LongType()),
-    StructField("taker_buy_base", DoubleType()),
-    StructField("taker_buy_quote", DoubleType()),
+    StructField("funding_time", TimestampType()),
+    StructField("funding_rate", DoubleType()),
+    StructField("mark_price", DoubleType())
 ])
 
-payload_schema = StructType([
-    StructField("candle_stick", ArrayType(candle_schema))
-])
-
+# -----------------------------
+# Parse JSON from Kafka
+# -----------------------------
 json_df = df.selectExpr("CAST(value AS STRING) as json") \
-    .select(from_json(col("json"), payload_schema).alias("data"))
+    .select(from_json(col("json"), funding_schema).alias("data"))
 
-candles = json_df.select(explode(col("data.candle_stick")).alias("c")).select("c.*")
+funding_rates = json_df.select("data.*")
 
+# -----------------------------
+# Write to PostgreSQL
+# -----------------------------
 def write_to_postgres(batch_df, batch_id):
     rows = batch_df.collect()
     if not rows:
@@ -61,12 +56,11 @@ def write_to_postgres(batch_df, batch_id):
         return
 
     conn = psycopg2.connect(
-        # host="pg01.internal.kiwcomp.com",
-        host="pg01",
+        host="pg01",          # 👈 host ของคุณ
         port=5432,
-        dbname="stocks",
-        user="airflow",
-        password="airflowpass",
+        dbname="kimtest",     # 👈 dbname
+        user="postgres",      # 👈 user
+        password="yourpass",  # 👈 password
     )
     cur = conn.cursor()
 
@@ -75,19 +69,11 @@ def write_to_postgres(batch_df, batch_id):
         rec = row.asDict()
         cur.execute(
             """
-            INSERT INTO candle_sticks (
-                source, type, market, symbol, interval,
-                event_time, open_time, close_time, is_closed,
-                open, high, low, close, volume,
-                quote_volume, trades,
-                taker_buy_base, taker_buy_quote
+            INSERT INTO funding_rate_history (
+                exchange, symbol, funding_time, funding_rate, mark_price
             )
             VALUES (
-                %(source)s, %(type)s, %(market)s, %(symbol)s, %(interval)s,
-                %(event_time)s, %(open_time)s, %(close_time)s, %(is_closed)s,
-                %(open)s, %(high)s, %(low)s, %(close)s, %(volume)s,
-                %(quote_volume)s, %(trades)s,
-                %(taker_buy_base)s, %(taker_buy_quote)s
+                %(exchange)s, %(symbol)s, %(funding_time)s, %(funding_rate)s, %(mark_price)s
             )
             ON CONFLICT DO NOTHING;
             """,
@@ -96,11 +82,14 @@ def write_to_postgres(batch_df, batch_id):
         inserted += 1
 
     conn.commit()
-    logger.info(f"Inserted {inserted} rows into candle_sticks")
+    logger.info(f"Inserted {inserted} rows into funding_rate_history")
     cur.close()
     conn.close()
 
-query = candles.writeStream \
+# -----------------------------
+# Start Streaming Query
+# -----------------------------
+query = funding_rates.writeStream \
     .outputMode("append") \
     .foreachBatch(write_to_postgres) \
     .start()
