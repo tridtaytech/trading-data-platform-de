@@ -10,7 +10,7 @@ logging.basicConfig(level=logging.INFO,
 logger = logging.getLogger("kafka_stream")
 
 spark = SparkSession.builder \
-    .appName("KafkaIntegration") \
+    .appName("binance_candle_sticks") \
     .getOrCreate()
 
 df = spark.readStream \
