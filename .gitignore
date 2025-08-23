@@ -1,0 +1,8 @@
+*.env
+*.env.dev
+*.env.prod
+*secret
+*venv
+poc/8-poc-apache-airflow-batch-stock-data-to-postgres/logs/
+*__pycache__
+*logs
