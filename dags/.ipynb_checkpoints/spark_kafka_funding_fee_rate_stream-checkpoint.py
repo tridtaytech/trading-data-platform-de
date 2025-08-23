@@ -56,11 +56,11 @@ def write_to_postgres(batch_df, batch_id):
         return
 
     conn = psycopg2.connect(
-        host="pg01",          # 👈 host ของคุณ
+        host="pgdev",          # 👈 host ของคุณ
         port=5432,
         dbname="kimtest",     # 👈 dbname
-        user="postgres",      # 👈 user
-        password="yourpass",  # 👈 password
+        user="kiwadmin",      # 👈 user
+        password="kiwpass@1689",  # 👈 password
     )
     cur = conn.cursor()
 
