@@ -17,7 +17,7 @@ with DAG(
 ) as dag:
     # https://airflow.apache.org/docs/apache-airflow-providers-apache-spark/stable/_modules/airflow/providers/apache/spark/operators/spark_submit.html#SparkSubmitOperator.application
     start_stream = SparkSubmitOperator(
-        application="/opt/airflow/dags/spark_kafka_stream_funding_fee_rate.py",
+        application="/opt/airflow/dags/spark_kafka_funding_fee_rate_stream.py",
         task_id="start_kafka_stream_funding_fee_rate",
         conn_id="spark_default",   # set in Airflow Connections
         name="KafkaIntegration",
