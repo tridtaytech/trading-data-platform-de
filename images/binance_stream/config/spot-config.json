@@ -1,0 +1,21 @@
+{
+    "_kafka_url" : "127.0.0.1:9092",
+    "kafka_url" : "kafka:29092",
+    "kafka_topic" : "binance.spot",
+    "symbols" : {
+        "BTC" : ["BTCUSDT"],
+        "ETH" : ["ETHUSDT"]
+    },
+    "interval" : "1m",
+    "final_only" : "true",
+    "debug" : "true",
+    "market" : "spot",
+    "use_db" : true,
+    "db" : {
+        "_host": "pg01.internal.kiwcomp.com",
+        "host": "pg01",
+        "port" : 5432,
+        "user" : "airflow",
+        "password" : "airflowpass"
+    }
+}
