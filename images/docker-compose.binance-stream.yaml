@@ -1,0 +1,33 @@
+services:
+  binance-spot:
+    image: binance-stream:1.0.0
+    networks:
+      data-platform:
+    profiles:
+      - bstream
+    environment:
+      - CONFIG_PATH=/config/spot-config.json
+    volumes:
+      - "./binance_stream/config:/config"
+  
+  binance-future-usdt:
+    image: binance-stream:1.0.0
+    networks:
+      data-platform:
+    profiles:
+      - bstream
+    environment:
+      - CONFIG_PATH=/config/futures-usdt-config.json
+    volumes:
+      - "./binance_stream/config:/config"
+  
+  binance-future-coincm:
+    image: binance-stream:1.0.0
+    networks:
+      data-platform:
+    profiles:
+      - bstream
+    environment:
+      - CONFIG_PATH=/config/futures-coincm-config.json
+    volumes:
+      - "./binance_stream/config:/config"
