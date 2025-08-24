@@ -24,7 +24,7 @@ with DAG(
         packages= "org.apache.spark:spark-sql-kafka-0-10_2.13:4.0.0",
         executor_cores=1,
         executor_memory=1,
-        executor_memory=1
+        driver_memory=1
         # conf={
         #     "spark.executor.memory": "1g",
         #     "spark.executor.cores": "1",
