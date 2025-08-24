@@ -23,8 +23,8 @@ with DAG(
         name="funding_fee_rate",
         packages= "org.apache.spark:spark-sql-kafka-0-10_2.13:4.0.0",
         executor_cores=1,
-        executor_memory=1,
-        driver_memory=1
+        executor_memory="1G",
+        driver_memory="1G",
         # conf={
         #     "spark.executor.memory": "1g",
         #     "spark.executor.cores": "1",
