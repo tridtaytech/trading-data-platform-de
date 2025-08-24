@@ -1,0 +1,54 @@
+{
+    "_kafka_url": "127.0.0.1:9092",
+    "kafka_url": "kafka:29092",
+    "kafka_topic": "binance.futures_coin",
+    "_symbols": {
+        "XRP": [
+            "XRPUSD_251226",
+            "XRPUSD_250926"
+        ],
+        "SOL": [
+            "SOLUSD_251226",
+            "SOLUSD_250926"
+        ],
+        "LTC": [
+            "LTCUSD_250926"
+        ],
+        "LINK": [
+            "LINKUSD_250926"
+        ],
+        "ETH": [
+            "ETHUSD_251226",
+            "ETHUSD_250926"
+        ],
+        "DOT": [
+            "DOTUSD_250926"
+        ],
+        "BTC": [
+            "BTCUSD_251226",
+            "BTCUSD_250926"
+        ],
+        "BNB": [
+            "BNBUSD_251226",
+            "BNBUSD_250926"
+        ],
+        "BCH": [
+            "BCHUSD_250926"
+        ],
+        "ADA": [
+            "ADAUSD_250926"
+        ]
+    },
+    "interval": "1m",
+    "final_only": "true",
+    "debug": "true",
+    "market": "futures_coin",
+    "use_db": true,
+    "db": {
+        "_host": "pg01.internal.kiwcomp.com",
+        "host": "pg01",
+        "port": 5432,
+        "user": "airflow",
+        "password": "airflowpass"
+    }
+}
