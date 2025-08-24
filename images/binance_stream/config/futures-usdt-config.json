@@ -1,0 +1,27 @@
+{
+    "_kafka_url": "127.0.0.1:9092",
+    "kafka_url": "kafka:29092",
+    "kafka_topic": "binance.futures_usdt",
+    "symbols": {
+        "BTC": [
+            "BTCUSDT_250926",
+            "BTCUSDT_251226"
+        ],
+        "ETH": [
+            "ETHUSDT_251226",
+            "ETHUSDT_250926"
+        ]
+    },
+    "interval": "1m",
+    "final_only": "true",
+    "debug": "true",
+    "market": "futures_usdt",
+    "use_db": true,
+    "db": {
+        "_host": "pg01.internal.kiwcomp.com",
+        "host": "pg01",
+        "port": 5432,
+        "user": "airflow",
+        "password": "airflowpass"
+    }
+}
