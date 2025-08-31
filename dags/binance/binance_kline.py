@@ -116,9 +116,17 @@ def fetch_and_update_kline(
             "limit": 1500,
         }
 
-        resp = requests.get(url, params=params, timeout=30)
-        resp.raise_for_status()
-        data = resp.json()
+        try:
+            resp = requests.get(url, params=params, timeout=30)
+            resp.raise_for_status()
+            data = resp.json()
+        except requests.exceptions.HTTPError as e:
+            if e.response is not None and e.response.status_code == 400:
+                print(f"⚠️ {symbol} not supported anymore → SKIP")
+                session.close()
+                return f"SKIPPED {symbol} (400 Bad Request)"
+            else:
+                raise
 
         if not data:
             print("⚠️ Binance returned no data for this window, stopping.")
