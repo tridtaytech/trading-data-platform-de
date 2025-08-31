@@ -3,14 +3,14 @@ from sqlalchemy.orm import sessionmaker
 
 # 🔗 Import your ORM tables
 from trading_kiwcomp_models.models.binance.data.BinanceSpotExchangeInfoSymbol import BinanceSpotExchangeInfoSymbolTable
-from trading_kiwcomp_models.models.binance.data.BinanceFutureUSDTExchangeInfoSymbol import BinanceFutureUSDTExchangeInfoSymbolTable
-from trading_kiwcomp_models.models.binance.data.BinanceFutureCOINMExchangeInfoSymbol import BinanceFutureCOINMExchangeInfoSymbolTable
+from trading_kiwcomp_models.models.binance.data.BinanceFuturesUSDTExchangeInfoSymbol import BinanceFuturesUSDTExchangeInfoSymbolTable
+from trading_kiwcomp_models.models.binance.data.BinanceFuturesCOINMExchangeInfoSymbol import BinanceFuturesCOINMExchangeInfoSymbolTable
 
 # --- Registry ---
 EXCHANGE_INFO_TABLES = {
     "spot": BinanceSpotExchangeInfoSymbolTable,
-    "futures_usdt": BinanceFutureUSDTExchangeInfoSymbolTable,
-    "futures_coinm": BinanceFutureCOINMExchangeInfoSymbolTable,
+    "futures_usdt": BinanceFuturesUSDTExchangeInfoSymbolTable,
+    "futures_coinm": BinanceFuturesCOINMExchangeInfoSymbolTable,
 }
 
 def get_symbols(underlying_type: str, db_conf: dict) -> list[str]:

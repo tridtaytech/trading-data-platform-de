@@ -3,13 +3,13 @@ from datetime import datetime, timezone
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.dialects.postgresql import insert
-from trading_kiwcomp_models.models.binance.data.BinanceFutureCOINMExchangeInfoSymbol import (
-    BinanceFutureCOINMExchangeInfoSymbolMapper,
-    BinanceFutureCOINMExchangeInfoSymbolTable,
+from trading_kiwcomp_models.models.binance.data.BinanceFuturesCOINMExchangeInfoSymbol import (
+    BinanceFuturesCOINMExchangeInfoSymbolMapper,
+    BinanceFuturesCOINMExchangeInfoSymbolTable,
 )
-from trading_kiwcomp_models.models.binance.data.BinanceFutureUSDTExchangeInfoSymbol import (
-    BinanceFutureUSDTExchangeInfoSymbolMapper,
-    BinanceFutureUSDTExchangeInfoSymbolTable,
+from trading_kiwcomp_models.models.binance.data.BinanceFuturesUSDTExchangeInfoSymbol import (
+    BinanceFuturesUSDTExchangeInfoSymbolMapper,
+    BinanceFuturesUSDTExchangeInfoSymbolTable,
 )
 from trading_kiwcomp_models.models.binance.data.BinanceSpotExchangeInfoSymbol import (
     BinanceSpotExchangeInfoSymbolMapper,
@@ -17,8 +17,8 @@ from trading_kiwcomp_models.models.binance.data.BinanceSpotExchangeInfoSymbol im
 )
 
 TABLE_MAP = {
-    "futures_usdt": (BinanceFutureUSDTExchangeInfoSymbolMapper, BinanceFutureUSDTExchangeInfoSymbolTable),
-    "futures_coinm": (BinanceFutureCOINMExchangeInfoSymbolMapper, BinanceFutureCOINMExchangeInfoSymbolTable),
+    "futures_usdt": (BinanceFuturesUSDTExchangeInfoSymbolMapper, BinanceFuturesUSDTExchangeInfoSymbolTable),
+    "futures_coinm": (BinanceFuturesCOINMExchangeInfoSymbolMapper, BinanceFuturesCOINMExchangeInfoSymbolTable),
     "spot": (BinanceSpotExchangeInfoSymbolMapper, BinanceSpotExchangeInfoSymbolTable),
 }
 URL_MAP = {
