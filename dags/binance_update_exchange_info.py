@@ -21,7 +21,7 @@ postgres_db = {
 }
 
 with DAG(
-    dag_id="binance_refresh_future_contracts",
+    dag_id="binance_update_exchange_info",
     start_date=datetime(2025, 8, 17),
     schedule="@daily",    # refresh once per day
     catchup=False,
