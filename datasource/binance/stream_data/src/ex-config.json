@@ -1,0 +1,20 @@
+{
+    "kafka": {
+        "_url" :  "kafka:29092",
+        "url" :  "kafka.internal.kiwcomp.com:9092",
+        "topic" : "test.spot",
+        "client_id" : "stream-spot"
+    },
+    "postgres": {
+        "host":  "pgdev.internal.kiwcomp.com",
+        "port": 5432,
+        "user": "kiwadmin",
+        "password": "kiwpass@1689",
+        "dbname" : "testdb"
+    },
+    "binance" : {
+        "market" : "spot",
+        "kline_interval" : "1m",
+        "event_type" : "kline"
+    }
+}
