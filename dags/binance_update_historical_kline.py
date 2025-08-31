@@ -44,10 +44,8 @@ with DAG(
     #         password=postgres_db["password"],
     #     )
 
-    # --- fetch symbol list from DB ---
-    @task
-    def get_all_symbols(underlying_type: str):
-        return get_symbols(underlying_type, postgres_db)
+    # def get_all_symbols(underlying_type: str):
+    #     return get_symbols(underlying_type, postgres_db)
 
     # --- expand over symbols ---
     @task
@@ -65,28 +63,29 @@ with DAG(
 
     # 🔹 Example for Futures USDT
     # futures_usdt_info = update_exchange_info("futures_usdt")
-    futures_usdt_symbols = get_all_symbols("futures_usdt")
-    fetch_usdt_klines = fetch_kline_for_symbol.partial(underlying_type="futures_usdt").expand(
-        symbol=futures_usdt_symbols
+    # futures_usdt_symbols = get_all_symbols("futures_usdt")
+    fetch_futures_usdt_klines = fetch_kline_for_symbol.partial(underlying_type="futures_usdt").expand(
+        symbol=get_symbols(underlying_type="futures_usdt", db_conf=postgres_db)
     )
 
     # 🔹 You can do the same for Spot and COIN-M
     # spot_info = update_exchange_info("spot")
-    spot_symbols = get_all_symbols("spot")
+    # spot_symbols = get_all_symbols("spot")
     fetch_spot_klines = fetch_kline_for_symbol.partial(underlying_type="spot").expand(
-        symbol=spot_symbols
+        symbol=get_symbols(underlying_type="spot", db_conf=postgres_db)
     )
 
     # coinm_info = update_exchange_info("futures_coinm")
-    coinm_symbols = get_all_symbols("futures_coinm")
-    fetch_coinm_klines = fetch_kline_for_symbol.partial(underlying_type="futures_coinm").expand(
-        symbol=coinm_symbols
+    # coinm_symbols = get_all_symbols("futures_coinm")
+    fetch_futures_coinm_klines = fetch_kline_for_symbol.partial(underlying_type="futures_coinm").expand(
+        symbol=get_symbols(underlying_type="futures_coinm", db_conf=postgres_db)
     )
 
     # --- Dependencies ---
     # futures_usdt_info >> futures_usdt_symbols >> fetch_usdt_klines
     # spot_info >> spot_symbols >> fetch_spot_klines
     # coinm_info >> coinm_symbols >> fetch_coinm_klines
-    futures_usdt_symbols >> fetch_usdt_klines
-    spot_symbols >> fetch_spot_klines
-    coinm_symbols >> fetch_coinm_klines
+    # futures_usdt_symbols >> fetch_usdt_klines
+    # spot_symbols >> fetch_spot_klines
+    # coinm_symbols >> fetch_coinm_klines
+    fetch_futures_usdt_klines >> fetch_futures_coinm_klines >> fetch_spot_klines
