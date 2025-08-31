@@ -48,7 +48,7 @@ with DAG(
     #     return get_symbols(underlying_type, postgres_db)
 
     # --- expand over symbols ---
-    @task
+    @task(pool="binance_update_historical_kline")
     def fetch_kline_for_symbol(underlying_type: str, symbol: str, interval: str = "1d"):
         return fetch_and_update_kline(
             underlying_type=underlying_type,
