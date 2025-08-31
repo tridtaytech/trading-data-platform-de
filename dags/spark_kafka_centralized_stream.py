@@ -19,26 +19,26 @@ spark = SparkSession.builder \
 # -----------------------------
 # Stream 1: funding_rate
 # -----------------------------
-funding_schema = StructType([
-    StructField("exchange", StringType()),
-    StructField("symbol", StringType()),
-    StructField("funding_time", TimestampType()),
-    StructField("funding_rate", DoubleType()),
-    StructField("mark_price", DoubleType())
-])
+# funding_schema = StructType([
+#     StructField("exchange", StringType()),
+#     StructField("symbol", StringType()),
+#     StructField("funding_time", TimestampType()),
+#     StructField("funding_rate", DoubleType()),
+#     StructField("mark_price", DoubleType())
+# ])
 
-funding_df = spark.readStream \
-    .format("kafka") \
-    .option("kafka.bootstrap.servers", "kafka:29092") \
-    .option("subscribe", "funding_rate") \
-    .option("startingOffsets", "latest") \
-    .option("failOnDataLoss", "false") \
-    .load()
+# funding_df = spark.readStream \
+#     .format("kafka") \
+#     .option("kafka.bootstrap.servers", "kafka:29092") \
+#     .option("subscribe", "funding_rate") \
+#     .option("startingOffsets", "latest") \
+#     .option("failOnDataLoss", "false") \
+#     .load()
 
-funding_json = funding_df.selectExpr("CAST(value AS STRING) as json") \
-    .select(from_json(col("json"), funding_schema).alias("data"))
+# funding_json = funding_df.selectExpr("CAST(value AS STRING) as json") \
+#     .select(from_json(col("json"), funding_schema).alias("data"))
 
-funding_rates = funding_json.select("data.*")
+# funding_rates = funding_json.select("data.*")
 
 # -----------------------------
 # Stream 2: binance_candle_sticks
@@ -146,10 +146,10 @@ def write_to_postgres(batch_df, batch_id, table, host, port, dbname, user, passw
 # -----------------------------
 # Start both queries
 # -----------------------------
-query1 = funding_rates.writeStream \
-    .outputMode("append") \
-    .foreachBatch(lambda df, batch_id: write_to_postgres(df, batch_id, "funding_rate_history",host="pgdev",port=5432,dbname="kimtest",user="kiwadmin",password="kiwpass@1689")) \
-    .start()
+# query1 = funding_rates.writeStream \
+#     .outputMode("append") \
+#     .foreachBatch(lambda df, batch_id: write_to_postgres(df, batch_id, "funding_rate_history",host="pgdev",port=5432,dbname="kimtest",user="kiwadmin",password="kiwpass@1689")) \
+#     .start()
 
 query2 = candles.writeStream \
     .outputMode("append") \
