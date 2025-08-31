@@ -27,7 +27,7 @@ with DAG(
     schedule="@daily",    # refresh once per day
     catchup=False,
     default_args=default_args,
-    tags=["binance", "symbols", "klines", "daily"],
+    tags=["binance", "symbols", "klines", "daily", "v2"],
     max_active_runs=1, 
     max_active_tasks=5,
 ) as dag:
