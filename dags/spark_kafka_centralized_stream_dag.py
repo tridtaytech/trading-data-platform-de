@@ -22,9 +22,10 @@ with DAG(
         conn_id="spark_default",   # set in Airflow Connections
         name="centralized",
         packages= "org.apache.spark:spark-sql-kafka-0-10_2.13:4.0.0",
-        # executor_cores=1,
-        # executor_memory="500M",
-        # driver_memory="500M"
+        total_executor_cores=1,
+        executor_cores=0.5,
+        executor_memory="500M",
+        driver_memory="500M"
         # conf={
         #     "spark.executor.memory": "1g",
         #     "spark.executor.cores": "1",
