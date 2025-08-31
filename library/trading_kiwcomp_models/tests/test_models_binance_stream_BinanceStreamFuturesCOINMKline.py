@@ -4,13 +4,13 @@ from sqlalchemy.orm import sessionmaker
 import sys, os
 # sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
 
-from trading_core.models.binance.stream.BinanceStreamFuturesCOINMKline import (
+from trading_kiwcomp_models.models.binance.stream.BinanceStreamFuturesCOINMKline import (
     BinanceStreamFuturesCOINMKline,
     BinanceStreamFuturesCOINMKlineTable,
     BinanceStreamFuturesCOINMKlineMapper,
 )
 
-from trading_core.models.binance.stream import StreamKline
+from trading_kiwcomp_models.models.binance.stream import StreamKline
 
 # ✅ ตัวอย่าง raw message จาก Binance
 RAW_SAMPLE = {

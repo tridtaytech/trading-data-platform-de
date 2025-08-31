@@ -1,12 +1,12 @@
 create-env:
-	python3.12 -m venv venv
+	python3.10 -m venv venv
 
 activate:
 	source venv/bin/activate
 install-req:
 	pip install -r requirements.txt
 install-package:
-	pip3 install sqlalchemy psycopg2-binary pydantic kafka-python pytest pytest-cov
+	pip3 install sqlalchemy==1.4.54 psycopg2-binary pydantic kafka-python pytest pytest-cov
 	pip install build twine
 
 install-mod:
@@ -17,4 +17,4 @@ run-test-cov:
 	pytest --cov=trading_core --cov-report=term-missing --cov-report=html
 	open index.html
 run-test-file:
-	
+	python3 initial_db.py

@@ -2,13 +2,13 @@ import pytest
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from trading_core.models.binance.stream.BinanceStreamFuturesCOINMMarkPriceUpdate import (
+from trading_kiwcomp_models.models.binance.stream.BinanceStreamFuturesCOINMMarkPriceUpdate import (
     BinanceStreamFuturesCOINMMarkPriceUpdate,
     BinanceStreamFuturesCOINMMarkPriceUpdateTable,
     BinanceStreamFuturesCOINMMarkPriceUpdateMapper,
 )
 
-from trading_core.models.binance.stream import MarkPriceUpdate
+from trading_kiwcomp_models.models.binance.stream import MarkPriceUpdate
 
 
 # ✅ ตัวอย่าง raw message จาก Binance

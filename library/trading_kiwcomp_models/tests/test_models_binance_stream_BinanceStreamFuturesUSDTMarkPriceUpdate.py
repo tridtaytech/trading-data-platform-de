@@ -3,13 +3,13 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from datetime import datetime, timezone
 
-from trading_core.models.binance.stream.BinanceStreamFuturesUSDTMarkPriceUpdate import (
+from trading_kiwcomp_models.models.binance.stream.BinanceStreamFuturesUSDTMarkPriceUpdate import (
     BinanceStreamFuturesUSDTMarkPriceUpdate,
     BinanceStreamFuturesUSDTMarkPriceUpdateTable,
     BinanceStreamFuturesUSDTMarkPriceUpdateMapper,
 )
 
-from trading_core.models.binance.stream import MarkPriceUpdate
+from trading_kiwcomp_models.models.binance.stream import MarkPriceUpdate
 
 
 # ✅ Sample raw message (from Binance docs)

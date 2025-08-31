@@ -6,13 +6,13 @@ import sys, os
 # เพิ่ม path ให้เจอ trading_core
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
 
-from trading_core.models.binance.data.BinanceFutureUSDTExchangeInfoSymbol import (
+from trading_kiwcomp_models.models.binance.data.BinanceFutureUSDTExchangeInfoSymbol import (
     BinanceFutureUSDTExchangeInfoSymbol,
     BinanceFutureUSDTExchangeInfoSymbolTable,
     BinanceFutureUSDTExchangeInfoSymbolMapper,
 )
 
-from trading_core.models.binance.data import ExchangeInfoSymbol
+from trading_kiwcomp_models.models.binance.data import ExchangeInfoSymbol
 
 # ✅ ตัวอย่าง raw message จาก Binance Futures USDT
 RAW_SAMPLE = {

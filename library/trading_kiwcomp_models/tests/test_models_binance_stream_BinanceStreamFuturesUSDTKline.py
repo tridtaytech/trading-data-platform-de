@@ -2,13 +2,13 @@ import pytest
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from trading_core.models.binance.stream.BinanceStreamFuturesUSDTKline import (
+from trading_kiwcomp_models.models.binance.stream.BinanceStreamFuturesUSDTKline import (
     BinanceStreamFuturesUSDTKline,
     BinanceStreamFuturesUSDTKlineTable,
     BinanceStreamFuturesUSDTKlineMapper,
 )
 
-from trading_core.models.binance.stream import StreamKline
+from trading_kiwcomp_models.models.binance.stream import StreamKline
 
 
 # ✅ Example raw message from Binance Futures USDT kline

@@ -1,11 +1,12 @@
 from pydantic import BaseModel
 from typing import List, Optional
-from sqlalchemy import Column, String, Integer, Float, JSON, DateTime
+from sqlalchemy import Column, String, Integer, JSON, DateTime
 from datetime import datetime, timezone
 from .base import ExchangeInfoSymbol
 
+
 # ✅ Pydantic Model
-class BinanceFutureUSDTExchangeInfoSymbol(BaseModel):
+class BinanceFuturesUSDTExchangeInfoSymbol(BaseModel):
     symbol: str
     pair: str
     contractType: str
@@ -30,16 +31,16 @@ class BinanceFutureUSDTExchangeInfoSymbol(BaseModel):
     marketTakeBound: str
 
 
-# ✅ ORM Table
-class BinanceFutureUSDTExchangeInfoSymbolTable(ExchangeInfoSymbol):
-    __tablename__ = "binance_future_usdt_exchange_info_symbols"
+# ✅ ORM Table (SQLAlchemy v1.4 style)
+class BinanceFuturesUSDTExchangeInfoSymbolTable(ExchangeInfoSymbol):
+    __tablename__ = "binance_futures_usdt_exchange_info_symbols"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     symbol = Column(String, index=True, unique=True)
     pair = Column(String, index=True)
     contractType = Column(String)
-    deliveryDate = Column(DateTime(timezone=True)) 
-    onboardDate = Column(DateTime(timezone=True)) 
+    deliveryDate = Column(DateTime(timezone=True))
+    onboardDate = Column(DateTime(timezone=True))
     status = Column(String)
     baseAsset = Column(String)
     quoteAsset = Column(String)
@@ -58,17 +59,20 @@ class BinanceFutureUSDTExchangeInfoSymbolTable(ExchangeInfoSymbol):
     liquidationFee = Column(String)
     marketTakeBound = Column(String)
 
-class BinanceFutureUSDTExchangeInfoSymbolMapper:
+
+# ✅ Mapper
+class BinanceFuturesUSDTExchangeInfoSymbolMapper:
     @staticmethod
-    def from_raw(raw: dict) -> BinanceFutureUSDTExchangeInfoSymbol:
-        return BinanceFutureUSDTExchangeInfoSymbol(
+    def from_raw(raw: dict) -> BinanceFuturesUSDTExchangeInfoSymbol:
+        """Convert raw Binance JSON → Pydantic model"""
+        return BinanceFuturesUSDTExchangeInfoSymbol(
             symbol=raw["symbol"],
             pair=raw["pair"],
             contractType=raw["contractType"],
             deliveryDate=datetime.fromtimestamp(raw["deliveryDate"]/1000, tz=timezone.utc)
                           if raw.get("deliveryDate") else None,
             onboardDate=datetime.fromtimestamp(raw["onboardDate"]/1000, tz=timezone.utc)
-                         if raw.get("onboardDate") else None,
+                          if raw.get("onboardDate") else None,
             status=raw["status"],
             baseAsset=raw["baseAsset"],
             quoteAsset=raw["quoteAsset"],
@@ -89,8 +93,9 @@ class BinanceFutureUSDTExchangeInfoSymbolMapper:
         )
 
     @staticmethod
-    def to_table(event: BinanceFutureUSDTExchangeInfoSymbol) -> BinanceFutureUSDTExchangeInfoSymbolTable:
-        return BinanceFutureUSDTExchangeInfoSymbolTable(
+    def to_table(event: BinanceFuturesUSDTExchangeInfoSymbol) -> BinanceFuturesUSDTExchangeInfoSymbolTable:
+        """Convert Pydantic model → ORM row"""
+        return BinanceFuturesUSDTExchangeInfoSymbolTable(
             symbol=event.symbol,
             pair=event.pair,
             contractType=event.contractType,

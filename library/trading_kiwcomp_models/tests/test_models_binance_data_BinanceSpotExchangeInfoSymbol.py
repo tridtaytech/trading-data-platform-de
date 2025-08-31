@@ -3,13 +3,13 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 import sys, os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
-from trading_core.models.binance.data.BinanceSpotExchangeInfoSymbol import (
+from trading_kiwcomp_models.models.binance.data.BinanceSpotExchangeInfoSymbol import (
     BinanceSpotExchangeInfoSymbol,
     BinanceSpotExchangeInfoSymbolTable,
     BinanceSpotExchangeInfoSymbolMapper,
 )
 
-from trading_core.models.binance.data import ExchangeInfoSymbol
+from trading_kiwcomp_models.models.binance.data import ExchangeInfoSymbol
 
 RAW_SAMPLE = {
     "symbol": "BTCUSDT",

@@ -2,13 +2,13 @@ import pytest
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from trading_core.models.binance.stream.BinanceStreamSpotKline import (
+from trading_kiwcomp_models.models.binance.stream.BinanceStreamSpotKline import (
     BinanceStreamSpotKline,
     BinanceStreamSpotKlineTable,
     BinanceStreamSpotKlineMapper,
 )
 
-from trading_core.models.binance.stream import StreamKline
+from trading_kiwcomp_models.models.binance.stream import StreamKline
 
 # ✅ ตัวอย่าง raw message จาก Binance Spot
 RAW_SAMPLE = {

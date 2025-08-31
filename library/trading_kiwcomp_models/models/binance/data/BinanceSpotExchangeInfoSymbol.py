@@ -1,8 +1,9 @@
 from pydantic import BaseModel
-from datetime import datetime, timezone
+from datetime import datetime
 from typing import List, Optional
 from sqlalchemy import Column, String, Boolean, Integer, JSON
 from .base import ExchangeInfoSymbol
+
 
 # ✅ Pydantic Model
 class BinanceSpotExchangeInfoSymbol(BaseModel):
@@ -31,6 +32,7 @@ class BinanceSpotExchangeInfoSymbol(BaseModel):
     permissionSets: Optional[List[List[str]]] = []
     defaultSelfTradePreventionMode: Optional[str]
     allowedSelfTradePreventionModes: Optional[List[str]] = []
+
 
 # ✅ ORM Table
 class BinanceSpotExchangeInfoSymbolTable(ExchangeInfoSymbol):
@@ -68,6 +70,7 @@ class BinanceSpotExchangeInfoSymbolTable(ExchangeInfoSymbol):
 class BinanceSpotExchangeInfoSymbolMapper:
     @staticmethod
     def from_raw(raw: dict) -> BinanceSpotExchangeInfoSymbol:
+        """Convert raw Binance JSON → Pydantic model"""
         return BinanceSpotExchangeInfoSymbol(
             symbol=raw["symbol"],
             status=raw["status"],
@@ -98,6 +101,7 @@ class BinanceSpotExchangeInfoSymbolMapper:
 
     @staticmethod
     def to_table(event: BinanceSpotExchangeInfoSymbol) -> BinanceSpotExchangeInfoSymbolTable:
+        """Convert Pydantic model → ORM row"""
         return BinanceSpotExchangeInfoSymbolTable(
             symbol=event.symbol,
             status=event.status,

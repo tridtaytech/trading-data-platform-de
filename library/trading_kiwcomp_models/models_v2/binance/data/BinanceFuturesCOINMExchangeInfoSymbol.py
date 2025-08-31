@@ -6,7 +6,7 @@ from .base import ExchangeInfoSymbol
 
 
 # ✅ Pydantic Model (ใช้ datetime ตรงกับ ORM)
-class BinanceFutureCOINMExchangeInfoSymbol(BaseModel):
+class BinanceFuturesCOINMExchangeInfoSymbol(BaseModel):
     symbol: str
     pair: str
     contractType: str
@@ -32,8 +32,8 @@ class BinanceFutureCOINMExchangeInfoSymbol(BaseModel):
 
 
 # ✅ ORM Table
-class BinanceFutureCOINMExchangeInfoSymbolTable(ExchangeInfoSymbol):
-    __tablename__ = "binance_future_coinm_exchange_info_symbols"
+class BinanceFuturesCOINMExchangeInfoSymbolTable(ExchangeInfoSymbol):
+    __tablename__ = "binance_futures_coinm_exchange_info_symbols"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     symbol = Column(String, index=True, unique=True)
@@ -61,11 +61,11 @@ class BinanceFutureCOINMExchangeInfoSymbolTable(ExchangeInfoSymbol):
 
 
 # ✅ Mapper
-class BinanceFutureCOINMExchangeInfoSymbolMapper:
+class BinanceFuturesCOINMExchangeInfoSymbolMapper:
     @staticmethod
-    def from_raw(raw: dict) -> BinanceFutureCOINMExchangeInfoSymbol:
+    def from_raw(raw: dict) -> BinanceFuturesCOINMExchangeInfoSymbol:
         """Convert raw Binance JSON → Pydantic model"""
-        return BinanceFutureCOINMExchangeInfoSymbol(
+        return BinanceFuturesCOINMExchangeInfoSymbol(
             symbol=raw["symbol"],
             pair=raw["pair"],
             contractType=raw["contractType"],
@@ -93,9 +93,9 @@ class BinanceFutureCOINMExchangeInfoSymbolMapper:
         )
 
     @staticmethod
-    def to_table(event: BinanceFutureCOINMExchangeInfoSymbol) -> BinanceFutureCOINMExchangeInfoSymbolTable:
+    def to_table(event: BinanceFuturesCOINMExchangeInfoSymbol) -> BinanceFuturesCOINMExchangeInfoSymbolTable:
         """Convert Pydantic model → ORM row"""
-        return BinanceFutureCOINMExchangeInfoSymbolTable(
+        return BinanceFuturesCOINMExchangeInfoSymbolTable(
             symbol=event.symbol,
             pair=event.pair,
             contractType=event.contractType,

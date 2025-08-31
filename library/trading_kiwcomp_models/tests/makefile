@@ -1,5 +1,5 @@
 create-env:
-	python3.12 -m venv venv
+	python3.10 -m venv venv
 
 activate:
 	source venv/bin/activate
@@ -16,3 +16,9 @@ run-test:
 run-test-cov:
 	pytest --cov=trading_core --cov-report=term-missing --cov-report=html
 	open index.html
+run-test-file:
+	python3 -m pytest --cov=trading_core --cov-report=term-missing --cov-report=html
+
+	pip3 install pydantic sqlalchemy psycopg2-binary pytest pytest-cov
+
+	
