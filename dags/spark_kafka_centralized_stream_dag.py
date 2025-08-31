@@ -23,7 +23,7 @@ with DAG(
         name="centralized",
         packages= "org.apache.spark:spark-sql-kafka-0-10_2.13:4.0.0",
         total_executor_cores=1,
-        executor_cores=0.5,
+        executor_cores=1,
         executor_memory="500M",
         driver_memory="500M"
         # conf={
