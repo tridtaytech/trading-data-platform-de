@@ -25,7 +25,8 @@ with DAG(
         total_executor_cores=1,
         executor_cores=1,
         executor_memory="500M",
-        driver_memory="500M"
+        driver_memory="500M",
+        pool="streaming",
         # conf={
         #     "spark.executor.memory": "1g",
         #     "spark.executor.cores": "1",
