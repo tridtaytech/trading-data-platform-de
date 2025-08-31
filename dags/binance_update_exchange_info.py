@@ -2,8 +2,9 @@ from airflow import DAG
 from airflow.decorators import task
 from datetime import datetime, timedelta, timezone
 import requests
-from binance_update_future_contracts.refresh_contracts import refresh_contracts
-from binance_update_future_contracts.golden_data import golden_data
+# from binance_update_future_contracts.refresh_contracts import refresh_contracts
+# from binance_update_future_contracts.golden_data import golden_data
+from binance.binance_exchange_info import fetch_and_update_exchange_info
 from shared.postgresql_utilitys import cleanup_tables
 
 default_args = {
@@ -13,11 +14,11 @@ default_args = {
 }
 
 postgres_db = {
-    "host"  : "pg01",
+    "host"  : "pgdev",
     "port" : 5432,
-    "dbname" : "stocks",
-    "user" : "airflow",
-    "password" : "airflowpass"
+    "dbname" : "testdb",
+    "user" : "test",
+    "password" : "testpass"
 }
 
 with DAG(
@@ -28,12 +29,23 @@ with DAG(
     default_args=default_args,
     tags=["binance", "symbols", "daily"],
 ) as dag:
+
+
+    @task
+    def update_spot_exchange_info():
+        return fetch_and_update_exchange_info(
+            underlying_type="spot",
+            host=postgres_db["host"],
+            port=postgres_db["port"],
+            dbname=postgres_db["dbname"],
+            user=postgres_db["user"],
+            password=postgres_db["password"],
+        )
         
     @task
-    def refresh_usdt_contracts():
-        return refresh_contracts(
-            url="https://fapi.binance.com/fapi/v1/exchangeInfo",
-            underlying_type="usdt",
+    def update_futures_usdt_exchange_info():
+        return fetch_and_update_exchange_info(
+            underlying_type="futures_usdt",
             host=postgres_db["host"],
             port=postgres_db["port"],
             dbname=postgres_db["dbname"],
@@ -42,21 +54,17 @@ with DAG(
         )
 
     @task
-    def refresh_coinm_contracts():
-        return refresh_contracts(
-            url="https://dapi.binance.com/dapi/v1/exchangeInfo",
-            underlying_type="coincm",
+    def update_futures_coinm_exchange_info():
+        return fetch_and_update_exchange_info(
+            underlying_type="futures_coinm",
             host=postgres_db["host"],
             port=postgres_db["port"],
             dbname=postgres_db["dbname"],
             user=postgres_db["user"],
             password=postgres_db["password"],
         )
-    
-    # clean_old_data_task = clean_old_data()
-    usdt_task = refresh_usdt_contracts()
-    coinm_task = refresh_coinm_contracts()
-
-    # Dependencies
-    # clean_old_data_task >> [usdt_task, coinm_task] >> golden_task
-    [usdt_task, coinm_task]
+        
+    spot_task = update_spot_exchange_info()
+    futures_usdt_task = update_futures_usdt_exchange_info()
+    futures_coinm_task = update_futures_coinm_exchange_info()
+    [spot_task, futures_usdt_task, futures_coinm_task]
