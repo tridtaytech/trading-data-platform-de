@@ -29,7 +29,7 @@ with DAG(
     default_args=default_args,
     tags=["binance", "symbols", "klines", "daily"],
     max_active_runs=1, 
-    max_active_tasks=2,
+    max_active_tasks=5,
 ) as dag:
 
     # # --- update exchange info ---
