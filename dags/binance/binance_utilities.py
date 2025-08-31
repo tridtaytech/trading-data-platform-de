@@ -22,7 +22,6 @@ def get_symbols(underlying_type: str, db_conf: dict) -> list[str]:
         raise ValueError(
             f"Unsupported underlying_type={underlying_type}, must be one of {list(EXCHANGE_INFO_TABLES)}"
         )
-
     Table = EXCHANGE_INFO_TABLES[underlying_type]
 
     # --- Setup DB session
@@ -33,7 +32,7 @@ def get_symbols(underlying_type: str, db_conf: dict) -> list[str]:
     session = Session()
 
     try:
-        rows = session.query(Table.symbol).all()
+        rows = session.query(Table.symbol).filter(Table.status != "PENDING_TRADING").all()
         return [r[0] for r in rows]  # flatten to simple list of strings
     finally:
         session.close()
