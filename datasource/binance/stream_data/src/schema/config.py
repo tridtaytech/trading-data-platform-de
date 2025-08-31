@@ -3,11 +3,9 @@ from typing import List
 from trading_core.connector.postgres.PostgresqlDBConnector import PostgresqlDBConnector
 from trading_core.connector.kafka.KafkaConnector import KafkaConnector
 
-
 class KafkaUserConfig(BaseModel):
     url: str
     topic: str
-
 
 class PostgreSQLUserConfig(BaseModel):
     host: str
@@ -15,7 +13,6 @@ class PostgreSQLUserConfig(BaseModel):
     user: str
     password: str
     dbname: str
-
 
 class BinanceConfig(BaseModel):
     market: str = Field("futures_usdt", pattern="^(spot|futures_usdt|futures_coin)$")

@@ -1,7 +1,6 @@
 import os
 import sys
 import asyncio
-
 # sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
 from schema.config import BinanceStreamConfig, BinanceConfig
 from trading_core.connector.kafka.KafkaConnector import KafkaConnector
