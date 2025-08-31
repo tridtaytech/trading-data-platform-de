@@ -32,7 +32,13 @@ def get_symbols(underlying_type: str, db_conf: dict) -> list[str]:
     session = Session()
 
     try:
-        rows = session.query(Table.symbol).filter(Table.status != "PENDING_TRADING").all()
+        if underlying_type in ("spot", "futures_usdt"):
+            rows = session.query(Table.symbol).filter(Table.status != "PENDING_TRADING").all()
+        elif underlying_type == "futures_coinm":
+            rows = session.query(Table.symbol).all()
+        else:
+            rows = []
+
         return [r[0] for r in rows]  # flatten to simple list of strings
     finally:
         session.close()
