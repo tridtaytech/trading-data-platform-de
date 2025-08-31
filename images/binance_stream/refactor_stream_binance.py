@@ -7,6 +7,39 @@ from kafka import KafkaProducer
 import psycopg2
 import logging
 
+BINANCE_WS  = {
+    "spot":         "wss://stream.binance.com:9443",
+    "futures_usdt": "wss://fstream.binance.com",
+    "futures_coin": "wss://dstream.binance.com",
+}
+
+class BinanceStreamConfiguration():
+    def __init__(
+        kafka_url, 
+        kafka_topic, 
+        interval, 
+        final_only, 
+        debug,
+        market,
+        db {
+            host :
+                port
+        }
+        ):
+        self.name = name
+        self.age = age
+        self.height = height
+        self.email = email
+
+    def __repr__(self):
+        return (f'{self.__class__.__name__}(name={self.name}, age={self.age}, height={self.height}, email={self.email})')
+
+class BinanceStreamKafka():
+    def __init__(config : BinanceStreamConfiguration):
+      self.config = config
+    
+
+
 logger = logging.getLogger("binance_to_kafka")
 logging.basicConfig(
     level=logging.INFO,

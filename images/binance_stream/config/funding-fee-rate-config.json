@@ -1,0 +1,17 @@
+{
+    "kafka_url": "kafka:29092",
+    "kafka_topic": "binance.futures_coin",
+    "interval": "1m",
+    "final_only": "true",
+    "debug": "true",
+    "market": "futures_coin",
+    "eventType" : "kline, markPriceUpdate",
+    "use_db": true,
+    "db": {
+        "_host": "pg01.internal.kiwcomp.com",
+        "host": "pg01",
+        "port": 5432,
+        "user": "airflow",
+        "password": "airflowpass"
+    }
+}
